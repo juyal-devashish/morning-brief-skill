@@ -8,7 +8,7 @@ It tells you the one thing that needs you, the rest of your to-dos, the shape of
   <img src="docs/screenshot-desktop.png" alt="Sample morning brief" width="560">
 </p>
 
-The screenshot uses made-up data from [`examples/sample-data.json`](examples/sample-data.json).
+The screenshot uses made-up data from [`examples/sample-data.json`](examples/sample-data.json). The page design is inspired by the [Dia browser](https://www.diabrowser.com).
 
 ## Quick start (Claude Code)
 
@@ -118,6 +118,10 @@ To render the sample yourself:
 ```bash
 python3 morning-brief/scripts/render.py examples/sample-data.json morning-brief.html
 ```
+
+## Credits
+
+The page design is inspired by the [Dia browser](https://www.diabrowser.com) by The Browser Company. This project is independent and not affiliated with or endorsed by them.
 
 ## License
 
