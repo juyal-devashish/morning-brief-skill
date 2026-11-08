@@ -4,8 +4,6 @@ A Claude skill that turns your calendar, inbox, chat and meeting notes into one 
 
 <p align="center">
   <img src="docs/screenshot-desktop.png" alt="Sample morning brief on desktop" width="560">
-  &nbsp;
-  <img src="docs/screenshot-phone.png" alt="Sample morning brief on a phone" width="180">
 </p>
 
 The screenshots come from [`examples/sample-data.json`](examples/sample-data.json), which is made-up data. Open [`docs/sample-brief.html`](docs/sample-brief.html) in a browser to try the checkboxes.
