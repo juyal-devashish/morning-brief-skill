@@ -42,23 +42,30 @@ Playwright is optional. Claude uses it to screenshot the page and check it befor
 
 ## Set it up
 
-Type `/morning-brief`, or ask Claude to "run my morning brief". On the first run Claude asks for your first name, timezone, weather city, the teams you follow, any extra sections you want, and which tools to read. It writes your answers into the **Config** block at the top of `morning-brief/SKILL.md`.
+Type `/morning-brief`, or ask Claude to "run my morning brief". The first run walks you through setup with a few clickable questions:
 
-You can also fill in the Config block yourself before the first run:
+1. **What goes on the page:** to-dos that need you, your calendar, already-sorted threads, weather, top priorities, coming up, sports, and extra sections such as job search. Pick only the ones you want; the rest never appear and are never fetched.
+2. **Details for what you picked:** timezone, which tools to read (it shows which are connected), sports spoilers, and whether to send the brief automatically each morning.
+3. **A short typed reply** for your first name, weather city and teams, only if you picked those blocks.
+
+Claude writes your answers into the **Config** block at the top of `morning-brief/SKILL.md`, schedules the daily run if you asked for one, and then makes your first brief right away. In Claude Code the questions are clickable; on claude.ai they come as one short message.
+
+Skills can't run when they're installed, so setup starts the first time you invoke the brief. To change your sections later, say "reconfigure my morning brief", or edit the `blocks` list in Config yourself:
 
 ```yaml
+setup_done: true
+blocks:
+  - needs
+  - day
+  - weather
 name: Alex
 timezone: America/Los_Angeles
 weather_location: San Francisco, CA
-teams:
-  - Golden State Warriors (NBA)
 sections:
   - Job search and interviews
 ```
 
-After the first run, Claude fills in `brief_url` (your page's link) and `memory_log` (the Google Sheet it uses for memory).
-
-To get it every morning, ask Claude to "set up my morning brief as a daily task".
+After the first run, Claude also fills in `brief_url` (your page's link) and `memory_log` (the Google Sheet it uses for memory).
 
 ## Your own photos (optional)
 

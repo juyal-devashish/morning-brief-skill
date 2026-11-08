@@ -1,6 +1,6 @@
 ---
 name: "morning-brief"
-description: "Render the user's daily morning brief (day shape, what needs them, priorities, weather, coming up, sports, custom sections) as a styled HTML page, with memory of earlier briefs and meeting action items, or set it up as a recurring daily task. Use only when the user explicitly asks to run, see, or set up their morning brief, or invokes /morning-brief by name. A question about their day, schedule, or calendar is not by itself a request for the brief; answer it directly instead."
+description: "Render the user's daily morning brief (day shape, what needs them, priorities, weather, coming up, sports, custom sections) as a styled HTML page, with memory of earlier briefs and meeting action items, or set it up as a recurring daily task. The first run asks a few clickable questions to pick the sections and configure it. Use only when the user explicitly asks to run, see, set up, or reconfigure their morning brief, or invokes /morning-brief by name. A question about their day, schedule, or calendar is not by itself a request for the brief; answer it directly instead."
 ---
 
 ## Context
@@ -14,6 +14,16 @@ One dark, editorial page: a painted landscape with "The {Weekday} Brief" set ove
 These values come from the user. Use them on every run; the invocation does not need to repeat them. Anything typed in the invocation overrides a value here for that run. Every line except `name` and `timezone` is optional: leave it blank or delete it, and that part of the brief is skipped.
 
 ```yaml
+setup_done: false          # the first-run setup sets this to true
+blocks:                    # page blocks to show, chosen during setup; delete a line to drop that block
+  - weather
+  - one_thing
+  - needs
+  - day
+  - resolved
+  - priorities
+  - coming_up
+  - sports
 name:                      # first name, e.g. Alex
 role:                      # optional, e.g. Product Manager, Acme
 language: English
@@ -47,14 +57,37 @@ The page has no action buttons or action links: links to start a new Claude chat
 
 ## First run
 
-If `name` or `timezone` is blank and the session is interactive, set the skill up before gathering:
+Run this setup the first time the skill is invoked (`setup_done` is false, or `name` or `timezone` is blank), and again whenever the user asks to "set up", "reconfigure", or "change the sections of" their morning brief. Do it before gathering. Skills cannot run at install time, so this happens on the first `/morning-brief`.
 
-1. Ask, in one short message: first name, timezone, weather city, teams to follow (if any), extra sections (if any), and which calendar, email, chat, and meeting-notes tools to use.
-2. Check which connectors are actually connected and suggest any missing ones (see Gather).
-3. Write the answers into the Config block of this file. Leave `memory_log`, `brief_url`, and `priorities_doc` blank; the run creates the log and fills `brief_url` after its first publish, and writes both IDs back into Config.
-4. Continue into Gather.
+On an unattended scheduled run with setup not done, skip setup: render what is possible with the machine's timezone and only the calendar, needs, and resolved blocks.
 
-On an unattended scheduled run with a blank Config, render what is possible with the timezone of the machine and skip personal blocks.
+**Ask with clickable questions.** When the `AskUserQuestion` tool is available (Claude Code, including the desktop app), use it. It takes at most 4 questions per call and 2–4 options per question, and the user can always type "Other". Where it is not available (for example claude.ai), ask the same questions as one short numbered message and wait for the reply.
+
+Before asking, check which connectors are connected, so the options name real tools (for example "Gmail (connected)").
+
+**Call 1: what goes on the page.** All multiSelect.
+1. header "Your day": "Which parts of your day should the brief cover?" Options: "To-dos that need me" (one_thing + needs: emails, chats, and meeting action items waiting on me) · "My calendar" (day: today's meetings) · "Already sorted" (resolved: threads that closed without me).
+2. header "Extras": "Which extras do you want?" Options: "Weather" · "Top priorities" (from a Google Doc) · "Coming up" (birthdays and deliveries this week) · "Sports".
+3. header "Sections": "Add any of these sections?" Options: "Job search and interviews" · "Team or project channel" · "Docs awaiting my review" · "None". Typed "Other" answers become sections too.
+
+**Call 2: details, only for what was picked.** Single-select unless noted; skip any question whose block was not picked.
+1. header "Timezone": "Which timezone are you in?" Options: the timezone this machine reports (Recommended), then two common neighbours (for example America/New_York, America/Los_Angeles). The user types others.
+2. header "Tools" (multiSelect, only if to-dos or calendar was picked): "Which tools should the brief read?" Options built from what is connected, at most 4, connected ones first (for example "Google Calendar + Gmail", "Outlook + Teams", "Slack", "Meeting notes"). Note any picked tool that is not connected yet; it gets a connector suggestion card at the end.
+3. header "Sports" (only if Sports was picked): "Spoilers in the sports block?" Options: "Show scores" · "Schedules only".
+4. header "Schedule": "Should the brief arrive on its own each morning?" Options: "Daily at 7 AM (Recommended)" · "Weekdays at 7 AM" · "No, I'll run it myself".
+
+**Then one plain message** for the free-text details that cannot be options, asking only for what the picks need: first name; weather city (if Weather); teams to follow (if Sports); the Google Doc with priorities, or "make one" (if Top priorities); the channel or project name (if that section was picked).
+
+**Write the answers into this file's Config:**
+- `blocks`: only the picked block names (one_thing and needs travel together). Picked sections go in `sections`.
+- `name`, `timezone`, `language` (the language the user wrote in), the tool lines for calendars, email, chat, and meetings, `weather_location`, `teams`, `sports_spoilers`.
+- Clear the Config lines for blocks that were not picked.
+- Set `setup_done: true`.
+- Leave `memory_log`, `brief_url`, and `priorities_doc` blank unless given; the first run creates the log and publishes the page, then writes both IDs back here. If the user said "make one" for priorities, create a Google Doc titled "Priorities" with three placeholder lines and write its id.
+
+Edit only the Config block. Never change the rest of this file during setup.
+
+If a schedule was picked, create the scheduled task as described in Setup (the user asked for it in the question, so this counts as a direct request). Confirm the setup in two or three lines (what's on the page, what's scheduled, which connectors to add), then continue straight into Gather so the first brief arrives in the same session.
 
 ## Setup
 
@@ -70,6 +103,8 @@ Creating or changing the scheduled task happens only when the user asks for it d
 ## Gather
 
 Let the user know this skill will take a few minutes.
+
+**Only what was chosen.** Gather, sort, and render only the blocks listed in Config `blocks`, plus the entries in `sections`. Skip every call that feeds a block not listed: no email or chat searches without `needs`, no calendar fetch without `day` (unless `needs` uses it for prep items), no weather, priorities, coming-up, or sports calls unless listed. In data.json, leave unchosen blocks empty or omit them; render.py drops empty blocks.
 
 **Memory first.** Read the memory log (see Remember) and the saved ticks (the `done` doc and the `ticks-` docs, see Remember) once, before any other call, and drop every ticked key from today's candidates before Sort. The log lists every item shown in recent briefs with its key, first-seen date, days shown, and status. If the log does not exist yet, this is day one: continue with an empty log and create it in Remember.
 
