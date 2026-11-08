@@ -1,0 +1,91 @@
+{
+  "name": "Alex",
+  "weekday": "Tuesday",
+  "date_iso": "2026-11-10",
+  "date_long": "Tuesday, November 10, 2026",
+  "date_rail": "10 Nov 2026",
+  "time_rail": "7:02 AM",
+  "day_class": "NORMAL",
+  "caption": "Three meetings, all before lunch, and the afternoon is clear for the launch doc.",
+  "one_thing": {
+    "key": "gmail:thread-demo-1",
+    "title": "Approve the Q4 vendor quote",
+    "url": "https://mail.google.com/",
+    "before": "Priya asked ",
+    "link_text": "in Gmail yesterday",
+    "after": " for a yes or no on the vendor quote; the price holds until 5 PM today.",
+    "days_shown": 2
+  },
+  "needs": [
+    {
+      "key": "slack:msg-demo-2",
+      "title": "Answer Sam about the beta cohort size",
+      "url": "https://slack.com/",
+      "before": "Sam asked ",
+      "link_text": "in #launch on Monday",
+      "after": " whether the beta starts with 50 or 200 users; the invite email goes out Wednesday.",
+      "days_shown": 1
+    },
+    {
+      "key": "gcal:event-demo-3",
+      "title": "Bring an agenda to tomorrow's roadmap review",
+      "url": "https://calendar.google.com/",
+      "before": "You're running the roadmap review ",
+      "link_text": "on your Google Calendar",
+      "after": " tomorrow at 10 AM; the open question is which of the two pricing pilots goes first.",
+      "days_shown": 1
+    }
+  ],
+  "day_note": "",
+  "day": [
+    {"time": "9:00a", "title": "Team standup", "range": "9:00 – 9:15 AM", "url": "https://calendar.google.com/", "before": "Daily check-in ", "link_text": "on your Google Calendar", "after": "."},
+    {"time": "10:30a", "title": "Design review: onboarding", "range": "10:30 – 11:30 AM", "url": "https://calendar.google.com/", "before": "Jordan is presenting the new flow ", "link_text": "on your Google Calendar", "after": "."},
+    {"time": "12:00p", "title": "Lunch with Morgan", "range": "12:00 – 1:00 PM", "url": null, "before": "", "link_text": "", "after": "At the usual place downtown."}
+  ],
+  "resolved": [
+    {
+      "key": "slack:msg-demo-4",
+      "title": "Staging outage question",
+      "url": "https://slack.com/",
+      "before": "Riley answered the staging question ",
+      "link_text": "in #eng last night",
+      "after": ": the outage was a certificate renewal and it's back up.",
+      "days_shown": 1
+    }
+  ],
+  "priorities": [
+    {"key": "prio:1", "title": "Ship the launch doc", "url": null},
+    {"key": "prio:2", "title": "Hire the second designer", "url": null},
+    {"key": "prio:3", "title": "Close the pricing pilot plan", "url": null}
+  ],
+  "worth_knowing": {
+    "weather": "Partly sunny, high 58°F and low 44°F; showers likely after 6 PM.",
+    "weather_extra": [],
+    "coming_up": [
+      {"lead": "Jamie's birthday", "rest": "is on Thursday"},
+      {"lead": "Your new monitor", "rest": "arrives today"}
+    ],
+    "sports": [
+      {"matchup": "Warriors vs. Lakers", "rest": ", 10:00 PM on ESPN", "url": null},
+      {"matchup": "Arsenal beat Chelsea 2–1", "rest": ", in the early kickoff", "url": null}
+    ]
+  },
+  "sections": [
+    {
+      "heading": "Job search",
+      "note": "",
+      "items": [
+        {
+          "key": "gmail:thread-demo-5",
+          "title": "Recruiter call scheduled for Friday",
+          "url": "https://mail.google.com/",
+          "before": "A recruiter at Example Co confirmed ",
+          "link_text": "in Gmail on Monday",
+          "after": " a 30-minute intro call on Friday at 2 PM.",
+          "days_shown": 1
+        }
+      ]
+    }
+  ],
+  "sources": ["Google Calendar", "Gmail", "Slack"]
+}

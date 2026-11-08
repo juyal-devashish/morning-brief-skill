@@ -1,0 +1,12 @@
+# Rendered output and personal run data
+data.json
+morning-brief.html
+brief-*.png
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
+
+# Personal photos stay local unless you choose to commit them
+morning-brief/assets/paintings/*
+!morning-brief/assets/paintings/.gitkeep
