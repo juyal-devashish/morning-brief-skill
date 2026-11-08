@@ -1,12 +1,22 @@
 # Morning Brief
 
-A Claude skill that turns your calendar, inbox, chat and meeting notes into one calm page each morning: the one thing that needs you, the rest of your to-dos, the shape of your day, what's already sorted, your top priorities, the weather, what's coming up, and today's games for the teams you follow.
+**One calm page every morning, written by Claude from your calendar, inbox, chat and meeting notes.**
+
+It tells you the one thing that needs you, the rest of your to-dos, the shape of your day, what got sorted without you, your top priorities, the weather, what's coming up, and today's games for the teams you follow. You pick which of those you want; the rest never show up.
 
 <p align="center">
-  <img src="docs/screenshot-desktop.png" alt="Sample morning brief on desktop" width="560">
+  <img src="docs/screenshot-desktop.png" alt="Sample morning brief" width="560">
 </p>
 
-The screenshots come from [`examples/sample-data.json`](examples/sample-data.json), which is made-up data. Open [`docs/sample-brief.html`](docs/sample-brief.html) in a browser to try the checkboxes.
+The screenshot uses made-up data from [`examples/sample-data.json`](examples/sample-data.json).
+
+## Quick start (Claude Code)
+
+```bash
+git clone https://github.com/juyal-devashish/morning-brief-skill.git && cp -R morning-brief-skill/morning-brief ~/.claude/skills/ && pip install numpy pillow
+```
+
+Then type `/morning-brief`. Claude asks a few clickable questions to pick your sections and tools, and your first brief arrives in the same session. Want it every day? Say yes to the 7 AM schedule during setup.
 
 ## What it does
 
@@ -100,7 +110,7 @@ morning-brief/            the skill: copy this folder to install it
   assets/fonts/           Fraunces (SIL Open Font License)
   assets/paintings/       your optional photos (git-ignored)
 examples/sample-data.json made-up data for a demo render
-docs/                     sample page and screenshots
+docs/                     sample page, screenshot, social preview image
 ```
 
 To render the sample yourself:
