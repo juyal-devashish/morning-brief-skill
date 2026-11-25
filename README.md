@@ -1,6 +1,19 @@
+<div align="center">
+
 # Morning Brief
 
 **One calm page every morning, written by Claude from your calendar, inbox, chat and meeting notes.**
+
+[Quick start](#quick-start-claude-code) &nbsp;·&nbsp; [What it does](#what-it-does) &nbsp;·&nbsp; [Set it up](#set-it-up) &nbsp;·&nbsp; [Privacy](#privacy)
+
+![Claude skill](https://img.shields.io/badge/Claude-skill-8A63D2)
+![Claude Code and claude.ai](https://img.shields.io/badge/runs%20in-Claude%20Code%20%7C%20claude.ai-D97757)
+![MCP connectors](https://img.shields.io/badge/reads-MCP%20connectors-informational)
+![Python 3](https://img.shields.io/badge/render-Python%203-3776AB?logo=python&logoColor=white)
+![Read-only](https://img.shields.io/badge/actions-read--only-2EA44F)
+![License: MIT](https://img.shields.io/badge/license-MIT-2EA44F)
+
+</div>
 
 It tells you the one thing that needs you, the rest of your to-dos, the shape of your day, what got sorted without you, your top priorities, the weather, what's coming up, and today's games for the teams you follow. You pick which of those you want; the rest never show up.
 
@@ -17,6 +30,24 @@ git clone https://github.com/juyal-devashish/morning-brief-skill.git && cp -R mo
 ```
 
 Then type `/morning-brief`. Claude asks a few clickable questions to pick your sections and tools, and your first brief arrives in the same session. Want it every day? Say yes to the 7 AM schedule during setup.
+
+## How it works
+
+```mermaid
+flowchart LR
+    subgraph Read["Read (only what you connected)"]
+        CAL[Calendar]
+        MAIL[Inbox]
+        CHAT[Slack or Teams]
+        NOTES[Meeting notes]
+        WX[Weather]
+    end
+    Read --> SORT[Sort: needs you,<br/>already sorted,<br/>priorities, coming up]
+    MEM[(Memory sheet<br/>Day N markers)] <--> SORT
+    SORT --> DATA[data.json]
+    DATA --> R[render.py<br/>+ painted header]
+    R --> PUB[Private claude.ai page,<br/>same link every day]
+```
 
 ## What it does
 
